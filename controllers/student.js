@@ -113,6 +113,32 @@ const deleteStudentsById = (req, res) => {
     }
 }
 
+const getStudentsById = (req, res) => {
+    const { id } = req.params
+
+    let studentIndex = -1
+
+    STUDENTS.forEach((stud, i) => {
+        if (stud.id == id) {
+            studentIndex = i
+        }
+    })
+
+    if (studentIndex == -1) {
+        return res.status(404).json({
+            success: false,
+            message: `Student with id: ${id} does not exist`
+        })
+    }
+    else {
+        return res.status(200).json({
+            success: true,
+            data: STUDENTS[studentIndex],
+            message: `Student with id: ${id} fetched successfully`
+        })
+    }
+}
+
 const putStudentsById = (req, res) => {
     const { id } = req.params
     const { name, city } = req.body
@@ -218,4 +244,4 @@ const getStudentsSearch = (req, res) => {
     })
 }
 
-export { getHealth, getStudents, postStudents, deleteStudentsById, putStudentsById, patchStudentsCityById, getStudentsSearch }
+export { getHealth, getStudents, postStudents, deleteStudentsById, putStudentsById, patchStudentsCityById, getStudentsSearch, getStudentsById }
